@@ -1,10 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic import ListView
 from tracker.models import Entry
 from tracker.models import Workout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
+from django.contrib import messages
 from django import forms
+from .forms import WorkoutCreateForm
+from django.views.generic.edit import FormView
+from datetime import datetime
 
 
 def dashboard(request):
@@ -18,30 +23,42 @@ def dashboard(request):
 
 	return render(request, 'tracker/dashboard.html', context)
 
-class DashboardView(ListView):
-	model = Entry.objects.filter()
-	template_name = 'tracker/dashboard.html'
-	context_object_name = 'entries'
+def workout_create(request):
+	auth_id = request.session['_auth_user_id']
 
-	def get_context_data(self, **kwargs):
-	    context = super(DashboardView, self).get_context_data(**kwargs)
-	    data = Entry.objects.all()
-	    context.update({'data': data})
-	    return context
+	if request.method == 'POST':
+		form = WorkoutCreateForm(request.POST)
+		if form.is_valid():
+			workout = form.save(commit=False)
+			workout.author_id = auth_id
+			workout.save()
+			return redirect('entry/' + str(workout.id))
 
-# class WorkoutCreateForm(forms.Form):
-# 	class Meta:
-# 		model = Workout
+	context = {
+		'form': WorkoutCreateForm(initial={'workout_date': datetime.now()})
+	}
+	return render(request, 'tracker/workout_new.html', context)
 
-# 	title = forms.CharField(label='Workout Name')
-# 	title = forms.CharField(label='Workout Name')
-# 	workout_date = forms.DateTimeField(label='Date of Workout')
-# 	time_in_minutes = forms.IntegerField(label='Time in Minutes')
+def entry_create(request, id=None):
+	# auth_id = request.session['_auth_user_id']
 
-# LoginRequiredMixin makes it so that a user who isn't logged in can't access 
-# the page to create a view
-class WorkoutCreateView(LoginRequiredMixin, CreateView):
-	model = Workout
-	fields = ['title', 'workout_date', 'time_in_minutes']
+	# if request.method == 'POST':
+	# 	form = WorkoutCreateForm(request.POST)
+	# 	if form.is_valid():
+	# 		workout = form.save(commit=False)
+	# 		workout.author_id = auth_id
+	# 		workout.save()
+	# 		messages.success(request, 'Workout created!')
+	# 		return redirect('tracker-dashboard')
 
+	# context = {
+	# 	'form': WorkoutCreateForm(initial={'workout_date': datetime.now()})
+	# }
+	# id = request.GET.get('id')
+
+	context = {
+		'id': id
+	}
+
+	return render(request, 'tracker/add_exercises.html', context)
 	

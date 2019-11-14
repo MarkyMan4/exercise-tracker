@@ -59,7 +59,7 @@
 			<div class="col-md-7">
 				{% if messages %}
 					{% for message in messages %}
-						<div class="alert alert-{{ messages.tags }}">
+						<div class="alert alert-{{ messages.tags }} alert-info">
 							{{ message }}
 						</div>
 					{% endfor %}

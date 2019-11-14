@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import WorkoutCreateView
 from . import views
 
 urlpatterns = [
     path('', views.dashboard, name='tracker-dashboard'),
-    path('workout/new/', WorkoutCreateView.as_view(), name='workout-create'),
+    path('create/', views.workout_create, name='workout-create'),
+    path(r'create/entry/<int:id>', views.entry_create, name='entry-create'),
 ]

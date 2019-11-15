@@ -19,7 +19,7 @@ class Exercise(models.Model):
     )
 
 class Entry(models.Model):
-	entry = models.ForeignKey(Workout, on_delete=models.CASCADE)
+	workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
 	exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
 	sets = models.IntegerField(default = 0)
 

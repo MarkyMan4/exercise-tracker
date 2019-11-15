@@ -1,6 +1,6 @@
 {% extends "tracker/base.html" %}
 {% block content %}
-	<h1 class="text-center modal-content pt-2 pb-2">Dashboard</h1>
+	<h1 class="text-center modal-content pt-2 pb-2">My Dashboard</h1>
 	{% if user.is_authenticated %}
 		{% for workout in workouts %}
 			<article class="media content-section">
@@ -10,7 +10,7 @@
 						<p class="text-muted">{{ workout.workout_date|date:"F d, Y" }}</p>
 					</div>
 					{% for entry in entries %}
-						{% if entry.entry_id == workout.id %}
+						{% if entry.workout_id == workout.id %}
 							<p>
 								{{ entry.exercise.name }}
 								{% if entry.exercise.type == "lift" %}
@@ -32,8 +32,15 @@
 		<h4 class="text-center pt-5">Log in to create workout entries and see your dashboard here</h4>
 	{% endif %}
 {% endblock content %}
+
 {% block right-side %}
-	<div class="text-center modal-content">
-		<a class="btn btn-outline-info" href="{% url 'workout-create' %}">Add A Workout</a>
-	</div>
+	{% if user.is_authenticated %}
+		<div class="text-center">
+			<a class="btn btn-info" href="{% url 'workout-create' %}">Add A Workout</a>
+		</div>
+		<br/>
+		<div class="media">
+			<img class="border" src="/media/graphs/graph.png">
+		</div>
+	{% endif %}
 {% endblock right-side %}

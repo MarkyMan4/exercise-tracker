@@ -12,6 +12,10 @@ ul {
   margin: 0;
 }
 
+.img-border {
+  outline: 5px;
+}
+
 .bg-steel {
   background-color: #e67300;
 }

@@ -88,6 +88,10 @@ def entry_create(request, id=None):
 
 @login_required
 def workout_detail(request, id=None):
+	
+	if request.GET.get('delete'):
+		Entry.objects.filter(id=int(request.GET.get('delete'))).delete()
+
 	auth_id = int(request.session['_auth_user_id'])
 	workout = Workout.objects.filter(id=id).values().first()
 

@@ -8,6 +8,7 @@ from datetime import datetime
 from matplotlib import pyplot as plt
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 
 def get_graph_data(workouts):
@@ -24,10 +25,20 @@ def get_graph_data(workouts):
 
 def dashboard(request):
 	# only entries for current user should show
-	workouts = Workout.objects.filter(author_id = request.user.id).order_by('-workout_date', '-id')
-	entries = Entry.objects.filter(workout_id__in=workouts)
+	all_workouts = Workout.objects.filter(author_id = request.user.id).order_by('-workout_date', '-id')
+	entries = Entry.objects.filter(workout_id__in=all_workouts)
 
-	x, y = get_graph_data(workouts)
+	page = request.GET.get('page', 1)
+	paginator = Paginator(all_workouts, 5)
+
+	try:
+		workouts = paginator.page(page)
+	except PageNotAnInteger:
+		workouts = paginator.page(1)
+	except EmptyPage:
+		workouts = paginator.page(paginator.num_pages)
+
+	x, y = get_graph_data(all_workouts)
 
 	fig = plt.figure(figsize=(4,3))
 	plt.bar(x, y)

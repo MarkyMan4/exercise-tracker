@@ -6,9 +6,15 @@
 			<article class="media content-section">
 				<div class="media-body">
 					<div class="article-metadata">
-						<h2>{{ workout.title }} - {{ workout.time_in_minutes }} minutes</h2>
+						<h2>
+							<a href="{% url 'workout-detail' workout.id %}">
+								{{ workout.title }}
+							</a> 
+							- {{ workout.time_in_minutes }} minutes
+						</h2>
 						<p class="text-muted">{{ workout.workout_date|date:"F d, Y" }}</p>
 					</div>
+					<!-- this is inefficient, find a better way to do this -->
 					{% for entry in entries %}
 						{% if entry.workout_id == workout.id %}
 							<p>

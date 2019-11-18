@@ -1,0 +1,25 @@
+{% extends "tracker/base.html" %}
+{% block content %}
+	<div class = "col-13 align-self-center">
+		<h1>{{ title }} <a href="#" class="btn btn-outline-primary float-right mt-2">Edit</a></h1>
+		<p>You worked out on {{ date|date:"F d, Y" }}</p>
+		<p>{{ time_in_minutes }} minutes</p>
+		<br/>
+		<h4>Here's what you did during this workout:</h4>
+		<div class="pl-2 pt-3">
+			{% for entry in entries %}
+				<p class="pb-2">
+					{{ entry.exercise.name }}
+					{% if entry.exercise.type == "lift" %}
+						- {{ entry.sets }} sets
+					{% endif %}
+
+				    <!-- add a popup confirming they want to delete the entry -->
+					<a href="#" class="btn btn-outline-danger float-right">Delete</a>
+				</p>
+				<hr>
+			{% endfor %}
+		</div>
+		<a href="{% url 'entry-create' id %}" class="btn btn-outline-primary float-right mt-3 mb-5">Add exercises to this workout</a>
+	</div>
+{% endblock content %}

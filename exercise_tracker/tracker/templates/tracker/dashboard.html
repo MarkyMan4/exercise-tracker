@@ -35,6 +35,7 @@
 			</article>
 		{% endfor %}
 
+		<!-- pagination -->
 		{% if workouts.has_other_pages %}
 			<ul class="pagination pb-5">
 				{% if workouts.has_previous %}
@@ -55,7 +56,6 @@
 					<li class="disabled page-item"><span class="page-link">&raquo;</span></li>
 				{% endif %}
 			</ul>
-		</nav>
 		{% endif %}
 	{% else %}
 		<h4 class="text-center pt-5">Log in to create workout entries and see your dashboard here</h4>

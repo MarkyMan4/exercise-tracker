@@ -112,4 +112,27 @@ def workout_detail(request, id=None):
 		'entries': entries,
 	}
 	return render(request, 'tracker/workout_detail.html', context)
-	
+
+@login_required
+def edit_workout(request, id=None):
+	auth_id = int(request.session['_auth_user_id'])
+	workout = Workout.objects.filter(id=id).values().first()
+
+	if auth_id != workout['author_id']:
+		return render(request, 'tracker/access_denied.html')
+
+	if request.method == 'POST':
+		form = WorkoutCreateForm(request.POST)
+		if form.is_valid():
+			workout = form.save(commit=False)
+			workout.author_id = auth_id
+			workout.id = id
+			workout.save()
+			return redirect('workout-detail', id)
+
+	context = {
+		'form': WorkoutCreateForm(workout)
+	}
+
+	return render(request, 'tracker/workout_edit.html', context)
+

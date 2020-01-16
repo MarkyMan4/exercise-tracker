@@ -1,0 +1,29 @@
+{% extends "tracker/base.html" %}
+{% block content %}
+	
+	<h1 class="text-center modal-content pt-2 pb-2">Your Workout Data</h1>
+	<div class="row" style="margin-top: 50px">
+		<div class="col-md-4" style="margin-left: 90px">
+			<article class="media content-section">
+					<div class="media-body text-center">
+						<div class="article-metadata">
+							<h4>% Cardio</h4>
+						</div>
+						{{ percent_card }}%
+					</div>
+			</article>
+		</div>
+
+		<div class="col-md-4">
+			<article class="media content-section">
+					<div class="media-body text-center">
+						<div class="article-metadata">
+							<h4>% Lifts</h4>
+						</div>
+						{{ percent_lift }}%
+					</div>
+			</article>
+		</div>
+	</div>
+
+{% endblock content %}

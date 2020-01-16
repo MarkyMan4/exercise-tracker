@@ -147,3 +147,28 @@ def edit_workout(request, id=None):
 
 	return render(request, 'tracker/workout_edit.html', context)
 
+@login_required
+def my_data(request):
+	# all workouts for current user
+	workouts = Workout.objects.filter(author_id = request.user.id)
+	entries = Entry.objects.filter(workout_id__in=workouts)
+	cardio = []
+	lifts = []
+
+	for e in entries:
+		e_type = e.exercise.type
+
+		if e_type == 'cardio':
+			cardio.append(e)
+		elif e_type == 'lift':
+			lifts.append(e)
+
+		percent_card = (len(cardio) / len(entries)) * 100
+		percent_lift = (len(lifts) / len(entries)) * 100
+
+		context = {
+			'percent_card' : percent_card,
+			'percent_lift' : percent_lift
+		}
+
+	return render(request, 'tracker/workout_data.html', context)

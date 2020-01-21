@@ -1,0 +1,25 @@
+{% extends "tracker/base.html" %}
+{% block content %}
+
+	<h1 class="text-center modal-content pt-2 pb-2">Weekly Plan</h1>
+
+	{% for key, value in schedule.items %}
+		<article class="media content-section">
+			<div class="media-body">
+				<div class="article-metadata">
+					<h2>{{ key }}</h2>
+				</div>
+
+				{% if value %}
+					{% for v in value %}
+						<p>{{ v }}</p>
+					{% endfor %}
+				{% else %}
+					<p>Rest day</p>
+				{% endif %}
+
+			</div>
+		</article>
+	{% endfor %}
+
+{% endblock content %}

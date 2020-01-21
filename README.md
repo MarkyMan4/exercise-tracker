@@ -12,9 +12,7 @@ Exercise tracker using the Django framework
 - [ ] confirmation for deletion
 - [ ] profile page to enter user details
 - [ ] profile picture
-- [ ] change up the sidebar
-- [ ] add more exercises to choose from
 - [ ] only display the first few exercises of a workout on the dashboard page, the rest can be seen from the details
-- [ ] add a page to show more graphs and data analysis
-- [ ] display daily health tips, there's probably an API for this
+- [ ] add a page to show more graphs and data analysis (in progress)
 - [ ] interaction among users
+- [ ] edit workout plans

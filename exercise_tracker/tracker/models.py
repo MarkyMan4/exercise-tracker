@@ -23,3 +23,26 @@ class Entry(models.Model):
 	exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
 	sets = models.IntegerField(default = 0)
 
+class Plan(models.Model):
+	author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+	SUNDAY = 'SUNDAY'
+	MONDAY = 'MONDAY'
+	TUESDAY = 'TUESDAY'
+	WEDNESDAY = 'WEDNESDAY'
+	THURSDAY = 'THURSDAY'
+	FRIDAY = 'FRIDAY'
+	SATURDAY = 'SATURDAY'
+
+	DAY_CHOICES = (
+		(SUNDAY, 'Sunday'),
+		(MONDAY, 'Monday'),
+		(TUESDAY, 'Tuesday'),
+		(WEDNESDAY, 'Wednesday'),
+		(THURSDAY, 'Thursday'),
+		(FRIDAY, 'Friday'),
+		(SATURDAY, 'Saturday')
+	)
+
+	day = models.CharField(max_length=9, choices=DAY_CHOICES)
+	exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)

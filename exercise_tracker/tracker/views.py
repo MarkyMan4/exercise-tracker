@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from tracker.models import Entry
 from tracker.models import Workout
+from tracker.models import Plan
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
 from .forms import WorkoutCreateForm, EntryCreateForm
@@ -150,7 +151,7 @@ def edit_workout(request, id=None):
 @login_required
 def my_data(request):
 	# all workouts for current user
-	workouts = Workout.objects.filter(author_id = request.user.id)
+	workouts = Workout.objects.filter(author_id=request.user.id)
 	entries = Entry.objects.filter(workout_id__in=workouts)
 	cardio = []
 	lifts = []
@@ -163,12 +164,37 @@ def my_data(request):
 		elif e_type == 'lift':
 			lifts.append(e)
 
+	percent_card = 0
+	percent_lift = 0
+
+	if len(entries) > 0:
 		percent_card = (len(cardio) / len(entries)) * 100
 		percent_lift = (len(lifts) / len(entries)) * 100
 
-		context = {
-			'percent_card' : percent_card,
-			'percent_lift' : percent_lift
-		}
+	context = {
+		'percent_card' : percent_card,
+		'percent_lift' : percent_lift
+	}
 
 	return render(request, 'tracker/workout_data.html', context)
+
+@login_required
+def plan(request):
+	context = {
+		'schedule' : {
+			'Sunday' : [],
+			'Monday' : [],
+			'Tuesday' : [],
+			'Wednesday' : [],
+			'Thursday' : [],
+			'Friday' : [],
+			'Saturday' : []
+		}
+	}
+
+	plan = Plan.objects.filter(author_id=request.user.id)
+
+	for p in plan:
+		context['schedule'][p.day].append(p.exercise.name)
+
+	return render(request, 'tracker/workout_plan.html', context)

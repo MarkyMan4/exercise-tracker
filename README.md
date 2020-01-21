@@ -1,6 +1,10 @@
 # exercise-tracker
 Exercise tracker using the Django framework
 
+\
+\
+![exercise_tracker](https://user-images.githubusercontent.com/37815834/72772616-0ade6100-3bca-11ea-9833-90e67a2a7ccb.JPG)
+
 # Todo
 - [x] register, login and logout
 - [x] add workouts, add exercises to a workout

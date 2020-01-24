@@ -167,6 +167,7 @@ def my_data(request):
 	percent_card = 0
 	percent_lift = 0
 
+	# avoid dividing by zero error if user has no entries
 	if len(entries) > 0:
 		percent_card = (len(cardio) / len(entries)) * 100
 		percent_lift = (len(lifts) / len(entries)) * 100
@@ -198,3 +199,18 @@ def plan(request):
 		context['schedule'][p.day].append(p.exercise.name)
 
 	return render(request, 'tracker/workout_plan.html', context)
+
+@login_required
+def edit_plan(request, day, id):
+	plan = Plan.objects.filter(author_id=request.user.id, day=day)
+	exercises = []
+
+	for p in plan:
+		exercises.append(p.exercise.name)
+
+	context = {
+		'day' : day,
+		'exercises' : exercises
+	}
+
+	return render(request, 'tracker/workout_plan_edit.html', context)

@@ -7,7 +7,7 @@
 		<article class="media content-section">
 			<div class="media-body">
 				<div class="article-metadata">
-					<h2>{{ key }}</h2>
+					<h2>{{ key }} <a href="{% url 'workout-plan-edit' key user.id %}" class="btn btn-outline-primary float-right">Edit</a></h2>
 				</div>
 
 				{% if value %}

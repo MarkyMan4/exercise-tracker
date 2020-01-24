@@ -9,4 +9,5 @@ urlpatterns = [
     path('details/<int:id>/edit/', views.edit_workout, name='workout-edit'),
     path('data/', views.my_data, name='workout-data'),
     path('plan/', views.plan, name='workout-plan'),
+    path('plan/edit/<str:day>/<int:id>', views.edit_plan, name='workout-plan-edit'),
 ]

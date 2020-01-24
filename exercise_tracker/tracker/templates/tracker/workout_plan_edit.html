@@ -1,0 +1,17 @@
+{% extends "tracker/base.html" %}
+{% block content %}
+
+	<h1>{{ day }}</h1>
+	<br>
+	{% if exercises %}
+		<h4>Your plan for this day:</h4>
+		<ul>
+		{% for e in exercises %}
+			<li>{{ e }}</li>
+		{% endfor %}
+		</ul>
+	{% else %}
+		<h4>You have nothing planned for this day</h4>
+	{% endif %}
+
+{% endblock content %}
